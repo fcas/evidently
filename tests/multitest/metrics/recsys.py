@@ -1,23 +1,23 @@
-from evidently.metrics.recsys.diversity import DiversityMetric
-from evidently.metrics.recsys.f_beta_top_k import FBetaTopKMetric
-from evidently.metrics.recsys.hit_rate_k import HitRateKMetric
-from evidently.metrics.recsys.item_bias import ItemBiasMetric
-from evidently.metrics.recsys.map_k import MAPKMetric
-from evidently.metrics.recsys.mar_k import MARKMetric
-from evidently.metrics.recsys.mrr import MRRKMetric
-from evidently.metrics.recsys.ndcg_k import NDCGKMetric
-from evidently.metrics.recsys.novelty import NoveltyMetric
-from evidently.metrics.recsys.pairwise_distance import PairwiseDistance
-from evidently.metrics.recsys.personalisation import PersonalizationMetric
-from evidently.metrics.recsys.popularity_bias import PopularityBias
-from evidently.metrics.recsys.precision_recall_k import PrecisionRecallCalculation
-from evidently.metrics.recsys.precision_top_k import PrecisionTopKMetric
-from evidently.metrics.recsys.rec_examples import RecCasesTable
-from evidently.metrics.recsys.recall_top_k import RecallTopKMetric
-from evidently.metrics.recsys.scores_distribution import ScoreDistribution
-from evidently.metrics.recsys.serendipity import SerendipityMetric
-from evidently.metrics.recsys.train_stats import TrainStats
-from evidently.metrics.recsys.user_bias import UserBiasMetric
+from evidently.legacy.metrics.recsys.diversity import DiversityMetric
+from evidently.legacy.metrics.recsys.f_beta_top_k import FBetaTopKMetric
+from evidently.legacy.metrics.recsys.hit_rate_k import HitRateKMetric
+from evidently.legacy.metrics.recsys.item_bias import ItemBiasMetric
+from evidently.legacy.metrics.recsys.map_k import MAPKMetric
+from evidently.legacy.metrics.recsys.mar_k import MARKMetric
+from evidently.legacy.metrics.recsys.mrr import MRRKMetric
+from evidently.legacy.metrics.recsys.ndcg_k import NDCGKMetric
+from evidently.legacy.metrics.recsys.novelty import NoveltyMetric
+from evidently.legacy.metrics.recsys.pairwise_distance import PairwiseDistance
+from evidently.legacy.metrics.recsys.personalisation import PersonalizationMetric
+from evidently.legacy.metrics.recsys.popularity_bias import PopularityBias
+from evidently.legacy.metrics.recsys.precision_recall_k import PrecisionRecallCalculation
+from evidently.legacy.metrics.recsys.precision_top_k import PrecisionTopKMetric
+from evidently.legacy.metrics.recsys.rec_examples import RecCasesTable
+from evidently.legacy.metrics.recsys.recall_top_k import RecallTopKMetric
+from evidently.legacy.metrics.recsys.scores_distribution import ScoreDistribution
+from evidently.legacy.metrics.recsys.serendipity import SerendipityMetric
+from evidently.legacy.metrics.recsys.train_stats import TrainStats
+from evidently.legacy.metrics.recsys.user_bias import UserBiasMetric
 from tests.multitest.conftest import NoopOutcome
 from tests.multitest.datasets import DatasetTags
 from tests.multitest.metrics.conftest import TestMetric
@@ -27,9 +27,10 @@ from tests.multitest.metrics.conftest import metric
 @metric
 def rec_cases_table():
     return TestMetric(
-        "rec_cases_table",
-        RecCasesTable(),
-        NoopOutcome(),
+        name="rec_cases_table",
+        metric=RecCasesTable(),
+        fingerprint="a2c6bcd798b614ca2feb3a1af1bc6401",
+        outcomes=NoopOutcome(),
         include_tags=[DatasetTags.RECSYS],
     )
 
@@ -37,9 +38,10 @@ def rec_cases_table():
 @metric
 def hit_rate_k_metric():
     return TestMetric(
-        "hit_rate_k_metric",
-        HitRateKMetric(k=3),
-        NoopOutcome(),
+        name="hit_rate_k_metric",
+        metric=HitRateKMetric(k=3),
+        fingerprint="95b3ffcf9690c0460e15d3d757f55490",
+        outcomes=NoopOutcome(),
         include_tags=[DatasetTags.RECSYS],
     )
 
@@ -47,9 +49,10 @@ def hit_rate_k_metric():
 @metric
 def mrr_k_metric():
     return TestMetric(
-        "mrr_k_metric",
-        MRRKMetric(k=3),
-        NoopOutcome(),
+        name="mrr_k_metric",
+        metric=MRRKMetric(k=3),
+        fingerprint="4fd63e982f25c21a634d25b4738936cf",
+        outcomes=NoopOutcome(),
         include_tags=[DatasetTags.RECSYS],
     )
 
@@ -57,9 +60,10 @@ def mrr_k_metric():
 @metric
 def score_distribution():
     return TestMetric(
-        "score_distribution",
-        ScoreDistribution(k=3),
-        NoopOutcome(),
+        name="score_distribution",
+        metric=ScoreDistribution(k=3),
+        fingerprint="f17c85595a80a881bb2b8208ca3154e2",
+        outcomes=NoopOutcome(),
         include_tags=[DatasetTags.RECSYS],
     )
 
@@ -67,9 +71,10 @@ def score_distribution():
 @metric
 def f_beta_top_k():
     return TestMetric(
-        "f_beta_top_k",
-        FBetaTopKMetric(3),
-        NoopOutcome(),
+        name="f_beta_top_k",
+        metric=FBetaTopKMetric(3),
+        fingerprint="8b76ec9a9bf30983cdc230f4d9253d80",
+        outcomes=NoopOutcome(),
         include_tags=[DatasetTags.RECSYS],
     )
 
@@ -77,148 +82,163 @@ def f_beta_top_k():
 @metric
 def precision_recall_calc():
     return TestMetric(
-        "precision_recall_calc",
-        PrecisionRecallCalculation(3),
-        NoopOutcome(),
-        [DatasetTags.RECSYS],
+        name="precision_recall_calc",
+        metric=PrecisionRecallCalculation(3),
+        fingerprint="f982a844e76b1a4673b62c61794de866",
+        outcomes=NoopOutcome(),
+        include_tags=[DatasetTags.RECSYS],
     )
 
 
 @metric
 def precision_top_k():
     return TestMetric(
-        "precision_top_k",
-        PrecisionTopKMetric(3),
-        NoopOutcome(),
-        [DatasetTags.RECSYS],
+        name="precision_top_k",
+        metric=PrecisionTopKMetric(3),
+        fingerprint="a85a3a7c6140bb85f6ee8bdb46b71d9c",
+        outcomes=NoopOutcome(),
+        include_tags=[DatasetTags.RECSYS],
     )
 
 
 @metric
 def recall_top_k():
     return TestMetric(
-        "recall_top_k",
-        RecallTopKMetric(3),
-        NoopOutcome(),
-        [DatasetTags.RECSYS],
+        name="recall_top_k",
+        metric=RecallTopKMetric(3),
+        fingerprint="86897f39c844d140a99a514b8ea17fe1",
+        outcomes=NoopOutcome(),
+        include_tags=[DatasetTags.RECSYS],
     )
 
 
 @metric
 def map_k():
     return TestMetric(
-        "map_k",
-        MAPKMetric(3),
-        NoopOutcome(),
-        [DatasetTags.RECSYS],
+        name="map_k",
+        metric=MAPKMetric(3),
+        fingerprint="66e5ba8afccdbd3a67e796484fc40b74",
+        outcomes=NoopOutcome(),
+        include_tags=[DatasetTags.RECSYS],
     )
 
 
 @metric
 def mar_k():
     return TestMetric(
-        "mar_k",
-        MARKMetric(3),
-        NoopOutcome(),
-        [DatasetTags.RECSYS],
+        name="mar_k",
+        metric=MARKMetric(3),
+        fingerprint="1aea4a4c81bc95522233e8ee1f62a6ec",
+        outcomes=NoopOutcome(),
+        include_tags=[DatasetTags.RECSYS],
     )
 
 
 @metric
 def ndcg():
     return TestMetric(
-        "ndcg",
-        NDCGKMetric(3),
-        NoopOutcome(),
-        [DatasetTags.RECSYS],
+        name="ndcg",
+        metric=NDCGKMetric(3),
+        fingerprint="9d5a1e94740388eb3d0755f05ef7dda1",
+        outcomes=NoopOutcome(),
+        include_tags=[DatasetTags.RECSYS],
     )
 
 
 @metric
 def novelty():
     return TestMetric(
-        "novelty",
-        NoveltyMetric(k=3),
-        NoopOutcome(),
-        [DatasetTags.RECSYS],
+        name="novelty",
+        metric=NoveltyMetric(k=3),
+        fingerprint="044733335050b4248b55f62597635c36",
+        outcomes=NoopOutcome(),
+        include_tags=[DatasetTags.RECSYS],
     )
 
 
 @metric
 def pairwise_distance():
     return TestMetric(
-        "pairwise_distance",
-        PairwiseDistance(k=3, item_features=["feature_1", "feature_2"]),
-        NoopOutcome(),
-        [DatasetTags.RECSYS],
+        name="pairwise_distance",
+        metric=PairwiseDistance(k=3, item_features=["feature_1", "feature_2"]),
+        fingerprint="e557fc4d799a2ad49abb8c1d666b454f",
+        outcomes=NoopOutcome(),
+        include_tags=[DatasetTags.RECSYS],
     )
 
 
 @metric
 def serendipity():
     return TestMetric(
-        "serendipity",
-        SerendipityMetric(k=3, item_features=["feature_1", "feature_2"]),
-        NoopOutcome(),
-        [DatasetTags.RECSYS],
+        name="serendipity",
+        metric=SerendipityMetric(k=3, item_features=["feature_1", "feature_2"]),
+        fingerprint="ed7e0457899c3fb536b28acf4d582d6d",
+        outcomes=NoopOutcome(),
+        include_tags=[DatasetTags.RECSYS],
     )
 
 
 @metric
 def personalization():
     return TestMetric(
-        "personalization",
-        PersonalizationMetric(k=3),
-        NoopOutcome(),
-        [DatasetTags.RECSYS],
+        name="personalization",
+        metric=PersonalizationMetric(k=3),
+        fingerprint="f73a8464f74068c40dbb6adf35b9ede1",
+        outcomes=NoopOutcome(),
+        include_tags=[DatasetTags.RECSYS],
     )
 
 
 @metric
 def popularity_bias():
     return TestMetric(
-        "popularity_bias",
-        PopularityBias(k=3),
-        NoopOutcome(),
-        [DatasetTags.RECSYS],
+        name="popularity_bias",
+        metric=PopularityBias(k=3),
+        fingerprint="fb8c86c8e3b0235bc0be86f470f4c4d7",
+        outcomes=NoopOutcome(),
+        include_tags=[DatasetTags.RECSYS],
     )
 
 
 @metric
 def train_stats():
     return TestMetric(
-        "train_stats",
-        TrainStats(),
-        NoopOutcome(),
-        [DatasetTags.RECSYS],
+        name="train_stats",
+        metric=TrainStats(),
+        fingerprint="a6ca927a9ab136c097125117fa03c932",
+        outcomes=NoopOutcome(),
+        include_tags=[DatasetTags.RECSYS],
     )
 
 
 @metric
 def user_bias():
     return TestMetric(
-        "user_bias",
-        UserBiasMetric(column_name="feature_1"),
-        NoopOutcome(),
-        [DatasetTags.RECSYS],
+        name="user_bias",
+        metric=UserBiasMetric(column_name="feature_1"),
+        fingerprint="266bfb05c179d6dff9981ad6d26444ae",
+        outcomes=NoopOutcome(),
+        include_tags=[DatasetTags.RECSYS],
     )
 
 
 @metric
 def item_bias():
     return TestMetric(
-        "item_bias",
-        ItemBiasMetric(k=3, column_name="feature_1"),
-        NoopOutcome(),
-        [DatasetTags.RECSYS],
+        name="item_bias",
+        metric=ItemBiasMetric(k=3, column_name="feature_1"),
+        fingerprint="04534fefcee85e3287ed86e890e31967",
+        outcomes=NoopOutcome(),
+        include_tags=[DatasetTags.RECSYS],
     )
 
 
 @metric
 def diversity_bias():
     return TestMetric(
-        "diversity",
-        DiversityMetric(k=3, item_features=["feature_1", "feature_2"]),
-        NoopOutcome(),
-        [DatasetTags.RECSYS],
+        name="diversity",
+        metric=DiversityMetric(k=3, item_features=["feature_1", "feature_2"]),
+        fingerprint="395fd112bdae7587b741d4cb20fed72a",
+        outcomes=NoopOutcome(),
+        include_tags=[DatasetTags.RECSYS],
     )

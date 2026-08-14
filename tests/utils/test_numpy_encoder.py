@@ -5,8 +5,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from evidently.utils import NumpyEncoder
-from evidently.utils.types import ApproxValue
+from evidently.legacy.utils import NumpyEncoder
+from evidently.legacy.utils.types import ApproxValue
 
 
 @pytest.mark.parametrize(
@@ -28,7 +28,7 @@ from evidently.utils.types import ApproxValue
                 np.uint64,
             )
         ],
-        *[(t(1.0), "1.0") for t in (np.float_, np.float16, np.float32, np.float64)],
+        *[(t(1.0), "1.0") for t in (np.double, np.float16, np.float32, np.float64)],
         (np.array([1, 2]), "[1, 2]"),
         (np.bool_(False), "false"),
         (pd.Timedelta(1), '"0 days 00:00:00.000000001"'),

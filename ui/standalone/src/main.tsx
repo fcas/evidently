@@ -1,28 +1,33 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
-import { AdditionalGraphInfo, DashboardInfo } from 'evidently-ui-lib/api'
-import ApiContext from 'evidently-ui-lib/contexts/ApiContext'
-import LocalApi from 'evidently-ui-lib/api/LocalApi'
-import { ThemeProvider } from 'evidently-ui-lib/shared-dependencies/mui-material'
-import { theme } from 'evidently-ui-lib/theme/v2'
+import type { AdditionalGraphInfo } from 'evidently-ui-lib/api'
+import { Box, CssBaseline, ThemeProvider } from 'evidently-ui-lib/shared-dependencies/mui-material'
+import { theme } from 'evidently-ui-lib/theme/index'
 
-import { ProjectReport } from 'evidently-ui-lib/standalone/app'
+import type { DashboardInfoModel } from 'evidently-ui-lib/api/types'
+import { ThemeToggle } from 'evidently-ui-lib/components/Theme/ThemeToggle'
+import { StandaloneSnapshotWidgets } from 'evidently-ui-lib/standalone/app'
 
 export function drawDashboard(
-  dashboard: DashboardInfo,
+  dashboard: DashboardInfoModel,
   additionalGraphs: Map<string, AdditionalGraphInfo>,
   tagId: string
 ) {
-  ReactDOM.createRoot(document.getElementById(tagId)!).render(
-    <React.StrictMode>
-      <ThemeProvider theme={theme}>
-        <ApiContext.Provider value={{ Api: new LocalApi(dashboard, additionalGraphs) }}>
-          <ProjectReport projectId={'p1'} reportId={'d1'} />
-        </ApiContext.Provider>
-      </ThemeProvider>
-    </React.StrictMode>
-  )
+  const element = document.getElementById(tagId)
+  if (element) {
+    ReactDOM.createRoot(element).render(
+      <React.StrictMode>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Box display={'flex'} justifyContent={'flex-end'} p={1}>
+            <ThemeToggle />
+          </Box>
+          <StandaloneSnapshotWidgets dashboard={dashboard} additionalGraphs={additionalGraphs} />
+        </ThemeProvider>
+      </React.StrictMode>
+    )
+  }
 }
 
 // @ts-ignore

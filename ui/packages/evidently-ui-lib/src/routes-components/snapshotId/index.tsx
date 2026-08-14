@@ -1,39 +1,21 @@
-import { useLoaderData, useParams } from 'react-router-dom'
-import invariant from 'tiny-invariant'
-import { DashboardContentWidgets } from '~/components/DashboardContent'
-import DashboardContext, { CreateDashboardContextState } from '~/contexts/DashboardContext'
-import { crumbFunction } from '~/components/BreadCrumbs'
-import { loaderData } from './data'
-import { Api } from '~/api'
-import { Grid } from '@mui/material'
+import type { DashboardInfoModel } from '~/api/types'
+import { SnapshotWidgets } from '~/components/Widgets/WidgetsContent'
+import DashboardContext, {
+  CreateDashboardContextState,
+  type DashboardContextState
+} from '~/contexts/DashboardContext'
 
-export const handle: { crumb: crumbFunction<loaderData>; hide: Record<string, Boolean> } = {
-  crumb: (_, { pathname, params }) => ({ to: pathname, linkText: String(params.snapshotId) }),
-  hide: {
-    snapshotList: true
-  }
+type SnapshotTemplateComponentProps = {
+  dashboardContextState: DashboardContextState
+  data: DashboardInfoModel
 }
 
-export const SnapshotTemplate = ({ api }: { api: Api }) => {
-  const { projectId, snapshotId } = useParams()
-  invariant(projectId, 'missing projectId')
-  invariant(snapshotId, 'missing snapshotId')
+export const SnapshotTemplateComponent = (props: SnapshotTemplateComponentProps) => {
+  const { data, dashboardContextState } = props
 
-  const data = useLoaderData() as loaderData
   return (
-    <>
-      <DashboardContext.Provider
-        value={CreateDashboardContextState({
-          getAdditionGraphData: (graphId) =>
-            api.getAdditionalGraphData(projectId, snapshotId, graphId),
-          getAdditionWidgetData: (widgetId) =>
-            api.getAdditionalWidgetData(projectId, snapshotId, widgetId)
-        })}
-      >
-        <Grid container spacing={3} direction="row" alignItems="stretch">
-          <DashboardContentWidgets widgets={data.widgets} />
-        </Grid>
-      </DashboardContext.Provider>
-    </>
+    <DashboardContext.Provider value={CreateDashboardContextState(dashboardContextState)}>
+      <SnapshotWidgets widgets={data.widgets} />
+    </DashboardContext.Provider>
   )
 }

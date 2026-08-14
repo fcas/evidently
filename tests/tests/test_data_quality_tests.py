@@ -4,31 +4,32 @@ import pandas as pd
 import pytest
 from pytest import approx as pytest_approx
 
-from evidently.pipeline.column_mapping import ColumnMapping
-from evidently.test_suite import TestSuite
-from evidently.tests import TestColumnQuantile
-from evidently.tests import TestColumnValueMax
-from evidently.tests import TestColumnValueMean
-from evidently.tests import TestColumnValueMedian
-from evidently.tests import TestColumnValueMin
-from evidently.tests import TestColumnValueStd
-from evidently.tests import TestConflictPrediction
-from evidently.tests import TestConflictTarget
-from evidently.tests import TestHighlyCorrelatedColumns
-from evidently.tests import TestMeanInNSigmas
-from evidently.tests import TestMostCommonValueShare
-from evidently.tests import TestNumberOfOutListValues
-from evidently.tests import TestNumberOfOutRangeValues
-from evidently.tests import TestNumberOfUniqueValues
-from evidently.tests import TestShareOfOutListValues
-from evidently.tests import TestShareOfOutRangeValues
-from evidently.tests import TestTargetFeaturesCorrelations
-from evidently.tests import TestTargetPredictionCorrelation
-from evidently.tests import TestUniqueValuesShare
-from evidently.tests import TestValueList
-from evidently.tests import TestValueRange
-from evidently.tests.base_test import TestStatus
-from evidently.tests.utils import approx
+from evidently.legacy.pipeline.column_mapping import ColumnMapping
+from evidently.legacy.test_suite import TestSuite
+from evidently.legacy.tests import TestCategoryCount
+from evidently.legacy.tests import TestColumnQuantile
+from evidently.legacy.tests import TestColumnValueMax
+from evidently.legacy.tests import TestColumnValueMean
+from evidently.legacy.tests import TestColumnValueMedian
+from evidently.legacy.tests import TestColumnValueMin
+from evidently.legacy.tests import TestColumnValueStd
+from evidently.legacy.tests import TestConflictPrediction
+from evidently.legacy.tests import TestConflictTarget
+from evidently.legacy.tests import TestHighlyCorrelatedColumns
+from evidently.legacy.tests import TestMeanInNSigmas
+from evidently.legacy.tests import TestMostCommonValueShare
+from evidently.legacy.tests import TestNumberOfOutListValues
+from evidently.legacy.tests import TestNumberOfOutRangeValues
+from evidently.legacy.tests import TestNumberOfUniqueValues
+from evidently.legacy.tests import TestShareOfOutListValues
+from evidently.legacy.tests import TestShareOfOutRangeValues
+from evidently.legacy.tests import TestTargetFeaturesCorrelations
+from evidently.legacy.tests import TestTargetPredictionCorrelation
+from evidently.legacy.tests import TestUniqueValuesShare
+from evidently.legacy.tests import TestValueList
+from evidently.legacy.tests import TestValueRange
+from evidently.legacy.tests.base_test import TestStatus
+from evidently.legacy.tests.utils import approx
 
 
 @pytest.mark.parametrize(
@@ -884,3 +885,17 @@ def test_data_quality_test_target_features_correlation_json_render() -> None:
         },
         "status": "SUCCESS",
     }
+
+
+def test_category_count_binary_column():
+    df = pd.DataFrame({"a": [True, False]})
+    test = TestCategoryCount(column_name="a", category=False, lte=0)
+    data_quality = TestSuite(
+        tests=[
+            test,
+        ]
+    )
+
+    data_quality.run(reference_data=None, current_data=df)
+
+    assert "False" in test.get_description(0)

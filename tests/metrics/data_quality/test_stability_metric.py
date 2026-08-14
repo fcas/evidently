@@ -5,10 +5,10 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from evidently.metrics import DataQualityStabilityMetric
-from evidently.metrics.data_quality.stability_metric import DataQualityStabilityMetricResult
-from evidently.pipeline.column_mapping import ColumnMapping
-from evidently.report import Report
+from evidently.legacy.metrics import DataQualityStabilityMetric
+from evidently.legacy.metrics.data_quality.stability_metric import DataQualityStabilityMetricResult
+from evidently.legacy.pipeline.column_mapping import ColumnMapping
+from evidently.legacy.report import Report
 
 
 @pytest.mark.parametrize(
@@ -89,10 +89,10 @@ def test_data_quality_stability_metric_success(
         (
             pd.DataFrame(
                 {
-                    "my_target": [1, np.NaN, 3] * 1000,
-                    "my_prediction": [1, 2, np.NaN] * 1000,
+                    "my_target": [1, np.nan, 3] * 1000,
+                    "my_prediction": [1, 2, np.nan] * 1000,
                     "feature_1": [1, 2, 3] * 1000,
-                    "feature_2": ["a", np.NaN, "a"] * 1000,
+                    "feature_2": ["a", np.nan, "a"] * 1000,
                 }
             ),
             pd.DataFrame(

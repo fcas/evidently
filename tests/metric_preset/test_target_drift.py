@@ -5,11 +5,11 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from evidently.metric_preset import TargetDriftPreset
-from evidently.options.agg_data import RenderOptions
-from evidently.options.base import Options
-from evidently.pipeline.column_mapping import ColumnMapping
-from evidently.report import Report
+from evidently.legacy.metric_preset import TargetDriftPreset
+from evidently.legacy.options.agg_data import RenderOptions
+from evidently.legacy.options.base import Options
+from evidently.legacy.pipeline.column_mapping import ColumnMapping
+from evidently.legacy.report import Report
 
 
 @pytest.mark.parametrize(
@@ -34,11 +34,11 @@ from evidently.report import Report
             ),
             pd.DataFrame(
                 {
-                    "my_target": ["1", np.NaN, "3", "3", "2", "1"],
-                    "1": [0.1, 0.2, np.NaN, 0.2, 0.2, 0.1],
+                    "my_target": ["1", np.nan, "3", "3", "2", "1"],
+                    "1": [0.1, 0.2, np.nan, 0.2, 0.2, 0.1],
                     "2": [0.9, 0.8, 0.5, 0.8, 0.7, 0.9],
                     "3": [0.9, 0.8, 0.5, 0.8, 0.7, 0.9],
-                    "feature2": [np.NaN, "b", "c", "a", "b", "c"],
+                    "feature2": [np.nan, "b", "c", "a", "b", "c"],
                     "datetime": pd.date_range("2020-01-01", periods=6),
                 }
             ),

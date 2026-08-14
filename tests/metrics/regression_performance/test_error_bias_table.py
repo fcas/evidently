@@ -5,11 +5,11 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from evidently.metrics import RegressionErrorBiasTable
-from evidently.options.agg_data import RenderOptions
-from evidently.options.base import Options
-from evidently.pipeline.column_mapping import ColumnMapping
-from evidently.report import Report
+from evidently.legacy.metrics import RegressionErrorBiasTable
+from evidently.legacy.options.agg_data import RenderOptions
+from evidently.legacy.options.base import Options
+from evidently.legacy.pipeline.column_mapping import ColumnMapping
+from evidently.legacy.report import Report
 
 
 @pytest.mark.parametrize(
@@ -81,7 +81,7 @@ def test_regression_error_bias_table_value_errors(
             },
         ),
         (
-            pd.DataFrame({"target": [1, np.NaN, 3], "prediction": [1, 2, 3], "feature": [np.NaN, "a", np.NaN]}),
+            pd.DataFrame({"target": [1, np.nan, 3], "prediction": [1, 2, 3], "feature": [np.nan, "a", np.nan]}),
             pd.DataFrame(
                 {
                     "target": [10, 20, 3.5],

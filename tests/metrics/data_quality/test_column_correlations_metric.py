@@ -6,12 +6,12 @@ import pandas as pd
 import pytest
 from pytest import approx
 
-from evidently.metric_results import ColumnCorrelations
-from evidently.metric_results import DistributionIncluded
-from evidently.metrics.data_quality.column_correlations_metric import ColumnCorrelationsMetric
-from evidently.metrics.data_quality.column_correlations_metric import ColumnCorrelationsMetricResult
-from evidently.pipeline.column_mapping import ColumnMapping
-from evidently.report import Report
+from evidently.legacy.metric_results import ColumnCorrelations
+from evidently.legacy.metric_results import DistributionIncluded
+from evidently.legacy.metrics.data_quality.column_correlations_metric import ColumnCorrelationsMetric
+from evidently.legacy.metrics.data_quality.column_correlations_metric import ColumnCorrelationsMetricResult
+from evidently.legacy.pipeline.column_mapping import ColumnMapping
+from evidently.legacy.report import Report
 
 
 @pytest.mark.parametrize(
@@ -30,7 +30,7 @@ from evidently.report import Report
         ),
         (
             pd.DataFrame(
-                {"feature1": ["n", "d", "p", "n"], "feature2": [0, 2, 2, 432], "feature3": ["f", "f", np.NaN, 432]}
+                {"feature1": ["n", "d", "p", "n"], "feature2": [0, 2, 2, 432], "feature3": ["f", "f", np.nan, 432]}
             ),
             None,
             ColumnMapping(categorical_features=["feature1", "feature2", "feature3"]),

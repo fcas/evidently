@@ -3,10 +3,10 @@ from typing import List
 import pandas as pd
 import pytest
 
-from evidently.features.text_part_feature import BeginsWith
-from evidently.features.text_part_feature import EndsWith
-from evidently.pipeline.column_mapping import ColumnMapping
-from evidently.utils.data_preprocessing import create_data_definition
+from evidently.legacy.features.text_part_feature import BeginsWith
+from evidently.legacy.features.text_part_feature import EndsWith
+from evidently.legacy.pipeline.column_mapping import ColumnMapping
+from evidently.legacy.utils.data_preprocessing import create_data_definition
 
 test_data = [
     "abcdefg",
@@ -32,7 +32,9 @@ def test_text_begins_feature(substr: str, case: bool, expected: List[bool]):
         data=data,
         data_definition=create_data_definition(None, data, ColumnMapping()),
     )
-    assert result.equals(pd.DataFrame(dict(column_1=expected)))
+    column_expected = feature_generator._feature_column_name()
+    expected_df = pd.DataFrame({column_expected: expected})
+    assert result.equals(expected_df)
 
 
 @pytest.mark.parametrize(
@@ -49,4 +51,6 @@ def test_text_ends_feature(substr: str, case: bool, expected: List[bool]):
         data=data,
         data_definition=create_data_definition(None, data, ColumnMapping()),
     )
-    assert result.equals(pd.DataFrame(dict(column_1=expected)))
+    column_expected = feature_generator._feature_column_name()
+    expected_df = pd.DataFrame({column_expected: expected})
+    assert result.equals(expected_df)

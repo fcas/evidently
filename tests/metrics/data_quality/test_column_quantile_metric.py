@@ -5,9 +5,9 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from evidently.metrics import ColumnQuantileMetric
-from evidently.pipeline.column_mapping import ColumnMapping
-from evidently.report import Report
+from evidently.legacy.metrics import ColumnQuantileMetric
+from evidently.legacy.pipeline.column_mapping import ColumnMapping
+from evidently.legacy.report import Report
 
 
 def test_data_quality_quantile_metric_success() -> None:
@@ -77,7 +77,7 @@ def test_data_quality_quantile_metric_value_errors(
     "current, reference, column_mapping, metric, expected_json",
     (
         (
-            pd.DataFrame({"numerical_feature": [0, 4, 1, 2, np.NaN]}),
+            pd.DataFrame({"numerical_feature": [0, 4, 1, 2, np.nan]}),
             pd.DataFrame({"numerical_feature": [0, 2, 2, 2, 0]}),
             ColumnMapping(),
             ColumnQuantileMetric(column_name="numerical_feature", quantile=0.5),
@@ -112,10 +112,10 @@ def test_data_quality_quantile_metric_value_errors(
         (
             pd.DataFrame(
                 {
-                    "my_target": [1, np.NaN, 3] * 1000,
-                    "my_prediction": [1, 2, np.NaN] * 1000,
+                    "my_target": [1, np.nan, 3] * 1000,
+                    "my_prediction": [1, 2, np.nan] * 1000,
                     "feature_1": [1, 2, 3] * 1000,
-                    "feature_2": ["a", np.NaN, "a"] * 1000,
+                    "feature_2": ["a", np.nan, "a"] * 1000,
                 }
             ),
             pd.DataFrame(

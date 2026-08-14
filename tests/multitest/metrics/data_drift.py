@@ -3,29 +3,29 @@ from pytest import approx
 from sklearn import datasets
 from sklearn.datasets import fetch_20newsgroups
 
-from evidently.calculation_engine.python_engine import PythonEngine
-from evidently.calculations.data_drift import ColumnDataDriftMetrics
-from evidently.calculations.data_drift import DriftStatsField
-from evidently.calculations.stattests import StatTest
-from evidently.calculations.stattests import psi_stat_test
-from evidently.calculations.stattests.registry import _impls
-from evidently.calculations.stattests.registry import add_stattest_impl
-from evidently.core import ColumnType
-from evidently.metric_results import Distribution
-from evidently.metric_results import DistributionIncluded
-from evidently.metrics import ColumnInteractionPlot
-from evidently.metrics.data_drift.column_drift_metric import ColumnDriftMetric
-from evidently.metrics.data_drift.column_value_plot import ColumnValuePlot
-from evidently.metrics.data_drift.data_drift_table import DataDriftTable
-from evidently.metrics.data_drift.dataset_drift_metric import DatasetDriftMetric
-from evidently.metrics.data_drift.embeddings_drift import EmbeddingsDriftMetric
-from evidently.metrics.data_drift.feature_importance import FeatureImportanceMetric
-from evidently.metrics.data_drift.target_by_features_table import TargetByFeaturesTable
-from evidently.metrics.data_drift.text_descriptors_drift_metric import TextDescriptorsDriftMetric
-from evidently.metrics.data_drift.text_domain_classifier_drift_metric import TextDomainClassifierDriftMetric
-from evidently.metrics.data_drift.text_metric import Comment
-from evidently.pipeline.column_mapping import ColumnMapping
-from evidently.tests.utils import approx_result
+from evidently.legacy.calculation_engine.python_engine import PythonEngine
+from evidently.legacy.calculations.data_drift import ColumnDataDriftMetrics
+from evidently.legacy.calculations.data_drift import DriftStatsField
+from evidently.legacy.calculations.stattests import StatTest
+from evidently.legacy.calculations.stattests import psi_stat_test
+from evidently.legacy.calculations.stattests.registry import _impls
+from evidently.legacy.calculations.stattests.registry import add_stattest_impl
+from evidently.legacy.core import ColumnType
+from evidently.legacy.metric_results import Distribution
+from evidently.legacy.metric_results import DistributionIncluded
+from evidently.legacy.metrics import ColumnInteractionPlot
+from evidently.legacy.metrics.data_drift.column_drift_metric import ColumnDriftMetric
+from evidently.legacy.metrics.data_drift.column_value_plot import ColumnValuePlot
+from evidently.legacy.metrics.data_drift.data_drift_table import DataDriftTable
+from evidently.legacy.metrics.data_drift.dataset_drift_metric import DatasetDriftMetric
+from evidently.legacy.metrics.data_drift.embeddings_drift import EmbeddingsDriftMetric
+from evidently.legacy.metrics.data_drift.feature_importance import FeatureImportanceMetric
+from evidently.legacy.metrics.data_drift.target_by_features_table import TargetByFeaturesTable
+from evidently.legacy.metrics.data_drift.text_descriptors_drift_metric import TextDescriptorsDriftMetric
+from evidently.legacy.metrics.data_drift.text_domain_classifier_drift_metric import TextDomainClassifierDriftMetric
+from evidently.legacy.metrics.data_drift.text_metric import Comment
+from evidently.legacy.pipeline.column_mapping import ColumnMapping
+from evidently.legacy.tests.utils import approx_result
 from tests.conftest import slow
 from tests.multitest.conftest import AssertExpectedResult
 from tests.multitest.conftest import AssertResultFields
@@ -40,45 +40,74 @@ from tests.multitest.metrics.conftest import metric
 @metric
 def comment():
     return TestMetric(
-        "comment",
-        Comment(""),
-        NoopOutcome(),
+        name="comment",
+        metric=Comment(""),
+        fingerprint="9357c4a1ebf5fb78e4f005cdf6ad8d7c",
+        outcomes=NoopOutcome(),
     )
 
 
 @metric
 def feature_importance():
-    return TestMetric("feature_importance", FeatureImportanceMetric(), NoopOutcome(), dataset_names=["bcancer"])
+    return TestMetric(
+        name="feature_importance",
+        metric=FeatureImportanceMetric(),
+        fingerprint="d0c2670a5a1c56ac4573c5db5650cba2",
+        outcomes=NoopOutcome(),
+        dataset_names=["bcancer"],
+    )
 
 
 @metric
 def data_drift_table():
-    return TestMetric("data_drift_table", DataDriftTable(), NoopOutcome(), dataset_names=["adult"])
+    return TestMetric(
+        name="data_drift_table",
+        metric=DataDriftTable(),
+        fingerprint="8c49b4dcadf84ddd94342d386ee3f214",
+        outcomes=NoopOutcome(),
+        dataset_names=["adult"],
+    )
 
 
 @metric
 def column_value_plot():
-    return TestMetric("column_value_plot", ColumnValuePlot("age"), NoopOutcome(), dataset_names=["adult"])
+    return TestMetric(
+        name="column_value_plot",
+        metric=ColumnValuePlot("age"),
+        fingerprint="d20c6d228a8204a329dcd4b368cc4b1c",
+        outcomes=NoopOutcome(),
+        dataset_names=["adult"],
+    )
 
 
 @metric
 def dataset_drift_metric():
-    return TestMetric("dataset_drift_metric", DatasetDriftMetric(), NoopOutcome())
+    return TestMetric(
+        name="dataset_drift_metric",
+        metric=DatasetDriftMetric(),
+        fingerprint="eb75be4bf9fbac23ed47059053232258",
+        outcomes=NoopOutcome(),
+    )
 
 
 @metric
 def target_by_features_table():
     return TestMetric(
-        "target_by_features_table", TargetByFeaturesTable(), NoopOutcome(), include_tags=[DatasetTags.HAS_TARGET]
+        name="target_by_features_table",
+        metric=TargetByFeaturesTable(),
+        fingerprint="1f004c7a2ac94f5e4f03548f759b549b",
+        outcomes=NoopOutcome(),
+        include_tags=[DatasetTags.HAS_TARGET],
     )
 
 
 @metric
 def text_descriptors_drift_metric():
     return TestMetric(
-        "text_descriptors_drift_metric",
-        TextDescriptorsDriftMetric(column_name="Review_Text"),
-        NoopOutcome(),
+        name="text_descriptors_drift_metric",
+        metric=TextDescriptorsDriftMetric(column_name="Review_Text"),
+        fingerprint="1cbb29d0cd0609b21b2a218fed3a6e04",
+        outcomes=NoopOutcome(),
         dataset_names=["reviews"],
         marks=[slow],
     )
@@ -86,7 +115,13 @@ def text_descriptors_drift_metric():
 
 @metric
 def column_drift_metric():
-    return TestMetric("column_drift_metric", ColumnDriftMetric("age"), NoopOutcome(), dataset_names=["adult"])
+    return TestMetric(
+        name="column_drift_metric",
+        metric=ColumnDriftMetric("age"),
+        fingerprint="539cca77a886f183975a676fc4a7424d",
+        outcomes=NoopOutcome(),
+        dataset_names=["adult"],
+    )
 
 
 @metric
@@ -101,8 +136,9 @@ def column_drift_metric_values():
 
     return [
         TestMetric(
-            "column_drift_metric_values",
-            ColumnDriftMetric(column_name="col"),
+            name="column_drift_metric_values",
+            metric=ColumnDriftMetric(column_name="col"),
+            fingerprint="87fac12514cb22bb4417157f9afac1d5",
             outcomes={
                 TestDataset(
                     current=pd.DataFrame({"col": [1, 2, 3]}),
@@ -128,8 +164,9 @@ def column_drift_metric_values():
             },
         ),
         TestMetric(
-            "column_drift_metric_values",
-            ColumnDriftMetric(column_name="col"),
+            name="column_drift_metric_values",
+            metric=ColumnDriftMetric(column_name="col"),
+            fingerprint="87fac12514cb22bb4417157f9afac1d5",
             outcomes={
                 TestDataset(
                     current=pd.DataFrame({"col": [5, 8, 3]}),
@@ -162,8 +199,9 @@ def column_drift_metric_values():
             },
         ),
         TestMetric(
-            "column_drift_metric_values",
-            ColumnDriftMetric(column_name="col", stattest="psi", stattest_threshold=0.1),
+            name="column_drift_metric_values",
+            metric=ColumnDriftMetric(column_name="col", stattest="psi", stattest_threshold=0.1),
+            fingerprint="2a8347b6245c9ec8de2fba8d36c45716",
             outcomes={
                 TestDataset(
                     current=pd.DataFrame({"col": [1, 2, 3]}),
@@ -189,8 +227,9 @@ def column_drift_metric_values():
             },
         ),
         TestMetric(
-            "column_drift_metric_values",
-            ColumnDriftMetric(column_name="col", stattest=test_stattest, stattest_threshold=0.1),
+            name="column_drift_metric_values",
+            metric=ColumnDriftMetric(column_name="col", stattest=test_stattest, stattest_threshold=0.1),
+            fingerprint="fc57cfacae72e747b972ffbf123c5b5c",
             outcomes={
                 TestDataset(
                     current=pd.DataFrame({"col": [1, 2, 3]}),
@@ -221,9 +260,10 @@ def column_drift_metric_values():
 @metric
 def column_interaction_plot():
     return TestMetric(
-        "column_interaction_plot",
-        ColumnInteractionPlot("age", "education"),
-        NoopOutcome(),
+        name="column_interaction_plot",
+        metric=ColumnInteractionPlot("age", "education"),
+        fingerprint="37807d9f3c3b85b17ddaefc7079ae7ec",
+        outcomes=NoopOutcome(),
         dataset_names=["adult"],
     )
 
@@ -254,9 +294,10 @@ def embeddings_dataset():
 @metric
 def embeddings_drift_metric():
     return TestMetric(
-        "embeddings_drift_metric",
-        EmbeddingsDriftMetric("small_subset"),
-        NoopOutcome(),
+        name="embeddings_drift_metric",
+        metric=EmbeddingsDriftMetric("small_subset"),
+        fingerprint="c43052a6a99ece41e40153fc4f46b1b2",
+        outcomes=NoopOutcome(),
         datasets=[embeddings_dataset()],
         marks=[slow],
     )
@@ -272,9 +313,10 @@ def text_domain_classifier_drift_metric():
     current_data = pd.DataFrame({"text": current.data})
 
     return TestMetric(
-        "text_domain_classifier_drift_metric",
-        TextDomainClassifierDriftMetric(text_column_name="text"),
-        AssertResultFields(
+        name="text_domain_classifier_drift_metric",
+        metric=TextDomainClassifierDriftMetric(text_column_name="text"),
+        fingerprint="a283d9e03e192687ab7a59194503236e",
+        outcomes=AssertResultFields(
             {
                 "text_column_name": "text",
                 "domain_classifier_roc_auc": approx(0.91, abs=0.02),

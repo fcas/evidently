@@ -5,9 +5,9 @@ import pandas as pd
 import pytest
 from pytest import approx
 
-from evidently.metrics.data_drift.data_drift_table import DataDriftTable
-from evidently.pipeline.column_mapping import ColumnMapping
-from evidently.report import Report
+from evidently.legacy.metrics.data_drift.data_drift_table import DataDriftTable
+from evidently.legacy.pipeline.column_mapping import ColumnMapping
+from evidently.legacy.report import Report
 
 
 @pytest.mark.parametrize(
@@ -18,16 +18,16 @@ from evidently.report import Report
                 {
                     "category_feature": ["1", "2", "3"],
                     "numerical_feature": [3, 2, 1],
-                    "target": [None, np.NAN, 1],
-                    "prediction": [1, np.NAN, 1],
+                    "target": [None, np.nan, 1],
+                    "prediction": [1, np.nan, 1],
                 }
             ),
             pd.DataFrame(
                 {
                     "category_feature": ["1", "2", "3"],
                     "numerical_feature": [3, 2, 1],
-                    "target": [None, np.NAN, 1],
-                    "prediction": [1, np.NAN, 1],
+                    "target": [None, np.nan, 1],
+                    "prediction": [1, np.nan, 1],
                 }
             ),
             ColumnMapping(),
@@ -37,8 +37,8 @@ from evidently.report import Report
                 {
                     "category_feature": ["1", "2", "3"],
                     "numerical_feature": [3, 2, 1],
-                    "target": [None, np.NAN, 1],
-                    "prediction": [1, np.NAN, 1],
+                    "target": [None, np.nan, 1],
+                    "prediction": [1, np.nan, 1],
                 }
             ),
             pd.DataFrame(
@@ -73,7 +73,7 @@ from evidently.report import Report
             ),
             ColumnMapping(prediction=["label_a", "label_b"]),
         ),
-        # multy classification
+        # multi classification
         (
             pd.DataFrame(
                 {
@@ -113,8 +113,8 @@ def test_data_drift_metrics_value_error() -> None:
         {
             "category_feature": ["1", "2", "3"],
             "numerical_feature": [3, 2, 1],
-            "target": [None, np.NAN, 1],
-            "prediction": [1, np.NAN, 1],
+            "target": [None, np.nan, 1],
+            "prediction": [1, np.nan, 1],
         }
     )
     data_mapping = ColumnMapping()
@@ -196,9 +196,9 @@ def test_data_drift_metrics_with_options() -> None:
 def test_data_drift_metrics_json_output() -> None:
     current_dataset = pd.DataFrame(
         {
-            "category_feature": ["a", "b", "a", np.NAN],
-            "target": [np.NAN, np.NAN, 3, 4],
-            "prediction": [1, 0, np.NAN, 5],
+            "category_feature": ["a", "b", "a", np.nan],
+            "target": [np.nan, np.nan, 3, 4],
+            "prediction": [1, 0, np.nan, 5],
         }
     )
     reference_dataset = pd.DataFrame(

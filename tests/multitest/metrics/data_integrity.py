@@ -2,20 +2,20 @@ import datetime
 
 import pandas as pd
 
-from evidently import ColumnMapping
-from evidently.metric_results import Histogram
-from evidently.metric_results import HistogramData
-from evidently.metrics.data_integrity.column_missing_values_metric import ColumnMissingValuesMetric
-from evidently.metrics.data_integrity.column_regexp_metric import ColumnRegExpMetric
-from evidently.metrics.data_integrity.column_summary_metric import CategoricalCharacteristics
-from evidently.metrics.data_integrity.column_summary_metric import ColumnSummaryMetric
-from evidently.metrics.data_integrity.column_summary_metric import ColumnSummaryResult
-from evidently.metrics.data_integrity.column_summary_metric import DataInTime
-from evidently.metrics.data_integrity.column_summary_metric import DataInTimePlots
-from evidently.metrics.data_integrity.column_summary_metric import DataQualityPlot
-from evidently.metrics.data_integrity.column_summary_metric import NumericCharacteristics
-from evidently.metrics.data_integrity.dataset_missing_values_metric import DatasetMissingValuesMetric
-from evidently.metrics.data_integrity.dataset_summary_metric import DatasetSummaryMetric
+from evidently.legacy.metric_results import Histogram
+from evidently.legacy.metric_results import HistogramData
+from evidently.legacy.metrics.data_integrity.column_missing_values_metric import ColumnMissingValuesMetric
+from evidently.legacy.metrics.data_integrity.column_regexp_metric import ColumnRegExpMetric
+from evidently.legacy.metrics.data_integrity.column_summary_metric import CategoricalCharacteristics
+from evidently.legacy.metrics.data_integrity.column_summary_metric import ColumnSummaryMetric
+from evidently.legacy.metrics.data_integrity.column_summary_metric import ColumnSummaryResult
+from evidently.legacy.metrics.data_integrity.column_summary_metric import DataInTime
+from evidently.legacy.metrics.data_integrity.column_summary_metric import DataInTimePlots
+from evidently.legacy.metrics.data_integrity.column_summary_metric import DataQualityPlot
+from evidently.legacy.metrics.data_integrity.column_summary_metric import NumericCharacteristics
+from evidently.legacy.metrics.data_integrity.dataset_missing_values_metric import DatasetMissingValuesMetric
+from evidently.legacy.metrics.data_integrity.dataset_summary_metric import DatasetSummaryMetric
+from evidently.legacy.pipeline.column_mapping import ColumnMapping
 from tests.multitest.conftest import AssertExpectedResult
 from tests.multitest.conftest import Error
 from tests.multitest.conftest import NoopOutcome
@@ -27,9 +27,10 @@ from tests.multitest.metrics.conftest import metric
 @metric
 def column_missing_values_metric():
     return TestMetric(
-        "column_missing_values_metric",
-        ColumnMissingValuesMetric(column_name="education"),
-        NoopOutcome(),
+        name="column_missing_values_metric",
+        outcomes=NoopOutcome(),
+        fingerprint="23b775c0e0106a4b1ff1d0737e17e310",
+        metric=ColumnMissingValuesMetric(column_name="education"),
         dataset_names=["adult"],
     )
 
@@ -37,7 +38,11 @@ def column_missing_values_metric():
 @metric
 def column_summary_metric():
     return TestMetric(
-        "column_summary_metric", ColumnSummaryMetric(column_name="age"), NoopOutcome(), dataset_names=["adult"]
+        name="column_summary_metric",
+        metric=ColumnSummaryMetric(column_name="age"),
+        fingerprint="dd103f012c4e9ad3ff0481c8bc12a387",
+        outcomes=NoopOutcome(),
+        dataset_names=["adult"],
     )
 
 
@@ -45,8 +50,9 @@ def column_summary_metric():
 def column_summary_metric_period():
     m = ColumnSummaryMetric(column_name="feature1")
     return TestMetric(
-        "column_summary_metric_period",
-        m,
+        name="column_summary_metric_period",
+        metric=m,
+        fingerprint="3a5520117bf79447d43a832de412ee7e",
         outcomes={
             TestDataset(
                 current=pd.DataFrame(
@@ -130,8 +136,9 @@ def column_summary_metric_period():
 def column_summary_metric_success():
     m = ColumnSummaryMetric(column_name="target")
     return TestMetric(
-        "column_summary_metric_success",
-        m,
+        name="column_summary_metric_success",
+        metric=m,
+        fingerprint="155cfc03433b99d27151695ef6280acb",
         outcomes={
             TestDataset(
                 current=pd.DataFrame({"target": [1, "ff", 3], "prediction": ["a", "b", "c"]}),
@@ -191,19 +198,30 @@ def column_summary_metric_success():
 
 @metric
 def dataset_summary_metric():
-    return TestMetric("dataset_summary_metric", DatasetSummaryMetric(), NoopOutcome())
+    return TestMetric(
+        name="dataset_summary_metric",
+        metric=DatasetSummaryMetric(),
+        fingerprint="029317ac6b72db123982166fd0ecb588",
+        outcomes=NoopOutcome(),
+    )
 
 
 @metric
 def column_reg_exp_metric():
     return TestMetric(
-        "column_reg_exp_metric",
-        ColumnRegExpMetric(column_name="relationship", reg_exp=r".*child.*"),
-        NoopOutcome(),
+        name="column_reg_exp_metric",
+        metric=ColumnRegExpMetric(column_name="relationship", reg_exp=r".*child.*"),
+        fingerprint="2a7e8b16e8aba9ff104bed9fad4485f4",
+        outcomes=NoopOutcome(),
         dataset_names=["adult"],
     )
 
 
 @metric
 def dataset_missing_values_metric():
-    return TestMetric("dataset_missing_values_metric", DatasetMissingValuesMetric(), NoopOutcome())
+    return TestMetric(
+        name="dataset_missing_values_metric",
+        metric=DatasetMissingValuesMetric(),
+        fingerprint="79eb52020de4d3def8c18700c2577fde",
+        outcomes=NoopOutcome(),
+    )

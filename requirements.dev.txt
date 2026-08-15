@@ -1,6 +1,6 @@
 # keep in sync with pyproject.toml [project.optional-dependencies] dev block.
 wheel==0.38.1
-setuptools==65.5.1; python_version < '3.12'
+setuptools==83.0.0; python_version < '3.12'
 setuptools==68.2.2; python_version >= '3.12'
 jupyter==1.0.0
 mypy==1.1.1

@@ -21,7 +21,7 @@ pyarrow==14.0.1
 pyspark==3.4.0
 fsspec==2024.9.0
 certifi==2024.7.4
-urllib3==1.26.19
+urllib3==2.8.0
 ujson==5.4.0
 deprecation==2.1.0
 uuid6==2024.7.10
